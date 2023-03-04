@@ -32,9 +32,7 @@ app.use('/img', express.static(path.resolve(__dirname, 'assets/img')));
 app.use('/js', express.static(path.resolve(__dirname, 'assets/js')));
 app.use('/upload', express.static(path.resolve(__dirname, 'assets/upload')));
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+app.use('/', require('./Routes/router'));
 
 
 db.sequelize.sync().then((req) => {
