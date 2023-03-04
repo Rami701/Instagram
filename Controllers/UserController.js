@@ -9,29 +9,63 @@ exports.create = (req, res) => {
         res.status(400).send({message: 'Body cannot be empty'});
     }
 
-    // bcrypt package to hash the password
-    bcrypt.hash(req.body.password, 10)
-  .then(hash => {
-    const user = {
-        first_name: req.body.firstName,
-        last_name: req.body.lastName,
-        username: req.body.username,
-        img_url: '/img/default_profile_picture.jpg',
-        email: req.body.email,
-        password: hash
-    };
+    const email = req.body.email;
+    const username = req.body.username;
 
-    User.create(user)
+    // se if the giving email is taken by another user by making a query to find a user with the giving email
+    User.findOne({where : {email: email}})
     .then(user => {
-        // here is what happen when the user is successfully created
-        // Todo
-        // instead of this line, redirect the user to the login page
-        res.status(200).send({user: user.toJSON()});
+        if(!user){
+            // if the giving email is not already taken by another user, check if the username is already taken
+            User.findOne({where : {username: username}})
+            .then(user2 => {
+                if(!user2){
+                    // nether the email nor the username is already taken by another user, so try to create the new user
+                    // bcrypt package to hash the password
+                    bcrypt.hash(req.body.password, 10)
+                    .then(hash => {
+                    const user = {
+                        first_name: req.body.firstName,
+                        last_name: req.body.lastName,
+                        username: req.body.username,
+                        img_url: '/img/default_profile_picture.jpg',
+                        email: req.body.email,
+                        password: hash
+                    };
+                
+                    User.create(user)
+                    .then(user => {
+                        // here is what happen when the user is successfully created
+                        // Todo
+                        // instead of this line, redirect the user to the login page
+                        res.status(200).send({user: user.toJSON()});
+                    })
+                    .catch(err => {
+                        res.status(500).send({message: `Error while creating user: ${err}`});
+                    });
+                    });
+                }else{
+                    // The username is already taken by another user
+                    // Todo
+                    // - refresh tha login page and send a variable to be used to indicate the user that the username is taken,
+                    //   by the UI
+                    res.send({message: `The username: ${username} is already taken by another user`})
+                }
+            })
+            .catch(err => {
+                res.status(500).send({message: 'Error while getting data: ' + err})
+            })
+        }else{
+            // the giving email is already taken by another user
+            // Todo 
+            // - refresh tha login page and send a variable to be used to indicate the user that the email is taken,
+            //   by the UI 
+            res.send({message: `The email: ${email} is already taken by another user`})
+        }
     })
     .catch(err => {
-        res.status(500).send({message: `Error while creating user: ${err}`});
-    });
-});
+        res.status(500).send({message: 'Error while getting data: ' + err})
+    })
 }
 
 exports.tryLogin = (req, res) => {
