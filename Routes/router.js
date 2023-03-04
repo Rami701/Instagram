@@ -23,9 +23,7 @@ router.get('/login', (req, res) => {
 // 2- password
 // the email and password are the input from the user in the login form
 // if the user entered a correct information, he will be redirected to his home page (GET /)
-router.post('/login', (req, res) => {
-    res.send('This route will try to login the user.');
-});
+router.post('/login', userController.tryLogin);
 
 // Register form route
 // this route is going to show the register form to the user.

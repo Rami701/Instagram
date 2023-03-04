@@ -4,20 +4,20 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fileUpload = require('express-fileupload');
 const db = require('./models');
-// const sessions = require('express-session');
-// const store = new sessions.MemoryStore();
+const sessions = require('express-session');
+const store = new sessions.MemoryStore();
 const port = 3000;
 
-// const oneDay = 1000 * 60 * 60 * 24;
+const oneDay = 1000 * 60 * 60 * 24;
 
 
-// app.use(sessions({
-//     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-//     saveUninitialized:false,
-//     cookie: { maxAge: oneDay },
-//     resave: false ,
-//     store: store,
-// }));
+app.use(sessions({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:false,
+    cookie: { maxAge: oneDay },
+    resave: false ,
+    store: store,
+}));
 
 
 const { fileLoader } = require('ejs');
