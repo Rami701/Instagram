@@ -4,6 +4,7 @@ const userController = require('../Controllers/UserController');
 const PostController = require('../Controllers/PostController');
 const PostLikeController = require('../Controllers/PostLikeController');
 const FollowingController = require('../Controllers/FollowingController');
+const CommentController = require('../Controllers/CommentController');
 
 // Home Route
 // if the user is not authenticated this route will return the login page (GET /login).
@@ -77,4 +78,22 @@ router.post('/follow', FollowingController.create);
 // this route is going to be invoked when the user tries to un-follow a user
 // the route will delete the row with follower_id = user_id in the session and user_id taken from a hidden input
 router.delete('/follow', FollowingController.delete);
+
+
+// create comment route
+// this route is going to be invoked when a user tries to add a comment on a post
+// we need 3 values:
+// 1- user_id: id of the commenter, taken from the session
+// 2- post_id: id of the post which being commented on, taken from a hidden input
+// 3- caption: the comment it self, taken from the request body
+router.post('/comments', CommentController.create);
+
+
+// delete comment route
+// this route is going to delete a comment 
+// if the active user id is same as the comment author id, the comment will be deleted
+router.delete('/comments', CommentController.delete);
+
+
+
 module.exports = router;
