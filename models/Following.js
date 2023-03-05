@@ -1,7 +1,7 @@
 // models/following.js
 
 module.exports = (sequelize, DataTypes) => {
-    const Following = sequelize.define('following', {
+    const Following = sequelize.define('Following', {
       follower_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

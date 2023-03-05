@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require('../Controllers/UserController');
 const PostController = require('../Controllers/PostController');
 const PostLikeController = require('../Controllers/PostLikeController');
+const FollowingController = require('../Controllers/FollowingController');
 
 // Home Route
 // if the user is not authenticated this route will return the login page (GET /login).
@@ -64,4 +65,16 @@ router.post('/posts', PostController.create);
 // so this route is for liking and also un-liking posts
 router.post('/post-like', PostLikeController.create);
 
+// follower route
+// this route is going to be invoked when a user tries to follow another user
+// a row will be added to the following table
+// the follower_id is taken from the session
+// the user_id (the user who is being followed) is going to be in the request body as hidden input attached to the user profile dynamically
+router.post('/follow', FollowingController.create);
+
+
+// un-follow route
+// this route is going to be invoked when the user tries to un-follow a user
+// the route will delete the row with follower_id = user_id in the session and user_id taken from a hidden input
+router.delete('/follow', FollowingController.delete);
 module.exports = router;
