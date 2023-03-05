@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require('../Controllers/UserController');
 const PostController = require('../Controllers/PostController');
+const PostLikeController = require('../Controllers/PostLikeController');
 
 // Home Route
 // if the user is not authenticated this route will return the login page (GET /login).
@@ -53,5 +54,14 @@ router.post('/register', userController.create);
 // 2- an uploaded img
 router.post('/posts', PostController.create);
 
+// new post like route
+// this route is going to be invoked when a the user likes a post
+// to insert a new post like to the database we need 2 values:
+// 1- user_id: the id of the user who liked the post, we can get it from the session
+// 2- post_id: the id of the liked post, we will get it from the body of the request,
+//    by adding a hidden input for every post that contains the post id (dynamic)
+// if the user already liked that post before, the like will be deleted
+// so this route is for liking and also un-liking posts
+router.post('/post-like', PostLikeController.create);
 
 module.exports = router;
