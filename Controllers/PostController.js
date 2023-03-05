@@ -42,3 +42,37 @@ exports.create = (req, res) => {
         })
     }
 }
+
+exports.delete = (req, res) => {
+    if(req.session.auth){
+        const user_id = req.session.user.user_id;
+        const post_id = req.body.post_id;
+
+        // check if the post exist
+        Post.findOne({where: {post_id: post_id}})
+        .then(post => {
+            if(!post){
+                res.status(404).send({message: 'Post not found'});
+            }else{
+                if(post.user_id != user_id){ // check if the active user is the author of the post
+                    res.status(401).send({message: 'You are not authenticated to delete this post'});
+                }else{
+                    Post.destroy({where: {post_id: post_id}})
+                    .then(() => {
+                        res.status(200).send({message: 'Post deleted successfully'});
+                    })
+                    .catch(err => {
+                        res.status(500).send({message: 'Error while deleting post: ' + err});
+                    })
+                }
+            }
+        })
+        .catch(err => {
+            res.status(500).send({message: 'Error while deleting post: ' + err});
+        })
+    }else{
+        // Todo
+        // redirect the user to the login page
+        res.send({message: 'You are not authenticated'});
+    }
+}
