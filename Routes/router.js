@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require('../Controllers/UserController');
+const PostController = require('../Controllers/PostController');
 
 // Home Route
 // if the user is not authenticated this route will return the login page (GET /login).
@@ -43,6 +44,14 @@ router.get('/register', (req, res) => {
 // if the values are valid, a new user will be added to the database with the giving values.
 // lastly, the user will be redirected to the login form (GET /login)
 router.post('/register', userController.create);
+
+
+// new post route
+// this route is going to be invoked when the user try to make a new post
+// the body will have 2 values:
+// 1- caption: the caption for the post
+// 2- an uploaded img
+router.post('/posts', PostController.create);
 
 
 module.exports = router;
