@@ -1,7 +1,7 @@
 // models/commentlike.js
 
 module.exports = (sequelize, DataTypes) => {
-    const CommentLike = sequelize.define('comment_like', {
+    const CommentLike = sequelize.define('CommentLike', {
       comment_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

@@ -5,6 +5,7 @@ const PostController = require('../Controllers/PostController');
 const PostLikeController = require('../Controllers/PostLikeController');
 const FollowingController = require('../Controllers/FollowingController');
 const CommentController = require('../Controllers/CommentController');
+const CommentLikeController = require('../Controllers/CommentLikeController');
 
 
 // -------------------- Pages -----------------------------
@@ -110,6 +111,17 @@ router.post('/comments', CommentController.create);
 // if the active user id is same as the comment author id, the comment will be deleted
 router.delete('/comments', CommentController.delete);
 
+// Create comment like
+// this route is invoked when the user tries to like a comment
+// the comment_id is taken from a hidden input
+// the user_id is taken from the session
+router.post('/comment-like', CommentLikeController.create);
+
+// Delete comment like
+// this route invoked when the user un-like a comment
+// comment_id is taken from a hidden input
+// user_id is taken from the session
+router.delete('/comment-like', CommentLikeController.delete);
 
 
 module.exports = router;

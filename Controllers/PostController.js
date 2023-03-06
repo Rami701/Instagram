@@ -59,6 +59,8 @@ exports.delete = (req, res) => {
                 }else{
                     Post.destroy({where: {post_id: post_id}})
                     .then(() => {
+                        // Todo
+                        // delete all likes, comments and comments likes for the deleted post
                         res.status(200).send({message: 'Post deleted successfully'});
                     })
                     .catch(err => {
