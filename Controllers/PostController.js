@@ -1,5 +1,6 @@
 const db = require('../models');
 const Post = db.Post;
+const Following = db.Following;
 
 // The method for creating a new post
 exports.create = (req, res) => {
@@ -72,5 +73,48 @@ exports.delete = (req, res) => {
         })
     }else{
         res.redirect('/login');
+    }
+}
+
+exports.getSomePosts = (req, res) => {
+    // this API is going to be invoked when a user enters his home page
+    // in the home page we want to show some posts to the user
+    // the posts are posts from other users that the active user follows
+    // -------------------------------------------------------------------
+    
+    // this is the limit of how many posts we want to get from each user
+    const limit = 5;
+
+    if(!req.session.auth){
+        res.redirect('/');
+    }else{
+        const user_id = req.session.user.user_id;
+        let ids = []; // this array is going to hold the ids of users that the active user follows
+
+        // get all users that the active user follows
+        Following.findAll({where: {follower_id: user_id}})
+        .then(rows => {
+            for(let i = 0; i < rows.length; i++){
+                ids.push(rows[i].user_id); 
+            }
+            const postPromises = ids.map(id => { // create a promise for each id
+                return Post.findAll({ // this query will be executed for each id 
+                    where: {user_id: id},
+                    limit: limit,
+                })
+            })
+            Promise.all(postPromises) // to execute all queries
+            .then(posts => {
+                const flattenedPosts = [].concat(...posts);
+                const shuffledPosts = flattenedPosts.sort(() => Math.random() - 0.5); // shuffle the posts randomly
+                res.send(shuffledPosts); // send the final posts as an array
+            })
+            .catch(err => {
+                res.status(500).send({message: 'Error while getting posts: ' + err});
+            })
+        })
+        .catch(err => {
+            res.status(500).send({message: 'Error while getting following: ' + err});
+        })
     }
 }

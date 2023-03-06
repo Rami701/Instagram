@@ -89,9 +89,10 @@ exports.tryLogin = (req, res) => {
                 .then(result => {
                     if(result){
                         // create a session for the user
-                        req.session.auth = true;
+                        req.session.    auth = true;
                         req.session.user = user;
-                        res.status(200).send({message: 'User login was successful!, user: ' + req.session.user.user_id + ', ' +req.session.user.first_name + ', ' + req.session.user.last_name});
+                        res.status(200).send({message: 'Login successful'});
+                        // res.redirect('/');
                     }else{
                         res.status(401).send({message: 'Wrong password'});
                     }

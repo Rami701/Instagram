@@ -6,6 +6,7 @@ const PostLikeController = require('../Controllers/PostLikeController');
 const FollowingController = require('../Controllers/FollowingController');
 const CommentController = require('../Controllers/CommentController');
 const CommentLikeController = require('../Controllers/CommentLikeController');
+const services = require('../services/render');
 
 
 // -------------------- Pages -----------------------------
@@ -14,9 +15,7 @@ const CommentLikeController = require('../Controllers/CommentLikeController');
 // Home Route
 // if the user is not authenticated this route will return the login page (GET /login).
 // if the user is authenticated the rout will return the home page for the user. 
-router.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+router.get('/', services.homeRoute);
 
 
 
@@ -68,6 +67,10 @@ router.post('/posts', PostController.create);
 // this route is invoked when a user tries to delete one of his posts
 // the post_id is taken form a hidden input
 router.delete('/posts', PostController.delete);
+
+// get posts route
+// this route is going to return some posts of the users that the active user is following
+router.get('/posts', PostController.getSomePosts);
 
 // new post like route
 // this route is going to be invoked when the user likes a post
