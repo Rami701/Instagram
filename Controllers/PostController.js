@@ -5,9 +5,7 @@ const Post = db.Post;
 exports.create = (req, res) => {
 
     if(!req.session.auth){
-        // Todo
-        // redirect the user to the login page
-        res.send({message: 'You are not authenticated'})
+        res.redirect('/login');
     }else{
         if(!req.body){
             res.status(400).send({message: 'Body cannot be empty'});
@@ -73,8 +71,6 @@ exports.delete = (req, res) => {
             res.status(500).send({message: 'Error while deleting post: ' + err});
         })
     }else{
-        // Todo
-        // redirect the user to the login page
-        res.send({message: 'You are not authenticated'});
+        res.redirect('/login');
     }
 }

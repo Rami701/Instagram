@@ -33,30 +33,33 @@ exports.create = (req, res) => {
         
 
     }else{
-        // Todo
-        // redirect the user to the login page
-        res.send({message: 'You are not authenticated'});
+        res.redirect('/login');
     }
 }
 
 exports.delete = (req, res) => {
-    const comment_id = req.body.comment_id;
+    if(req.session.auth){
+        const comment_id = req.body.comment_id;
     
-    Comment.findOne({where: {comment_id: comment_id}})
-    .then(comment => {
-        if(comment.user_id != req.session.user.user_id){
-            res.send({message: 'You are not authenticated to deleted this comment'});
-        }else{
-            Comment.destroy({where: {comment_id: comment_id}})
-            .then(() => {
-                res.status(200).send({message: 'Comment deleted successfully'});
-            })
-            .catch(err => {
-                res.status(500).send({message: `Error while deleting comment: ${err}`});
-            })
-        }
-    })
-    .catch(err => {
-        res.status(500).send({message: 'Comment not found: ' + err});
-    })
+        Comment.findOne({where: {comment_id: comment_id}})
+        .then(comment => {
+            if(comment.user_id != req.session.user.user_id){
+                res.send({message: 'You are not authenticated to deleted this comment'});
+            }else{
+                Comment.destroy({where: {comment_id: comment_id}})
+                .then(() => {
+                    res.status(200).send({message: 'Comment deleted successfully'});
+                })
+                .catch(err => {
+                    res.status(500).send({message: `Error while deleting comment: ${err}`});
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).send({message: 'Comment not found: ' + err});
+        })
+    }else{
+        res.redirect('/login');
+    }
+    
 }

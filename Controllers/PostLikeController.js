@@ -37,9 +37,7 @@ exports.create = (req, res) => {
         })
         
     }else{
-        // Todo
-        // redirect the user to the login page
-        res.send({message: 'You are not authenticated'});
+        res.redirect('/login');
     }  
 }
 
@@ -57,8 +55,6 @@ exports.delete = (req, res) => {
             res.status(500).send({message: 'Error while un-liking the post: ' + err});
         })
     }else{
-        // Todo
-        // redirect the user to the login page
-        res.send({message: 'You are not authenticated to un-like this post'});
+        res.redirect('/login');
     }
 }
