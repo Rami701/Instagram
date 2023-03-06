@@ -2,16 +2,24 @@ const axios = require('axios');
 
 exports.homeRoute = (req, res) => {
     if(!req.session.auth){
-        // Todo
-        // render the login page
+        res.redirect('/login');
     }else{
-        // call GET /posts
-        axios.get('http://localhost:3000/posts')
-        .then(result => {
-            res.render('home', {posts: result});
-        })
-        .catch(err => {
-            res.send(err);
-        })
+        res.redirect('/posts');
+    }
+}
+
+exports.login = (req, res) => {
+    if(req.session.auth){
+        res.redirect('/');
+    }else{
+        res.render('login');
+    }
+}
+
+exports.register = (req, res) => {
+    if(req.session.auth){
+        res.redirect('/');
+    }else{
+        res.render('register');
     }
 }

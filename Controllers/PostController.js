@@ -86,6 +86,7 @@ exports.getSomePosts = (req, res) => {
     const limit = 5;
 
     if(!req.session.auth){
+        console.log('i am here22222')
         res.redirect('/');
     }else{
         const user_id = req.session.user.user_id;
@@ -107,7 +108,7 @@ exports.getSomePosts = (req, res) => {
             .then(posts => {
                 const flattenedPosts = [].concat(...posts);
                 const shuffledPosts = flattenedPosts.sort(() => Math.random() - 0.5); // shuffle the posts randomly
-                res.send(shuffledPosts); // send the final posts as an array
+                res.render('home', {posts: shuffledPosts});
             })
             .catch(err => {
                 res.status(500).send({message: 'Error while getting posts: ' + err});

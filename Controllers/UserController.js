@@ -36,9 +36,7 @@ exports.create = (req, res) => {
                     User.create(user)
                     .then(user => {
                         // here is what happen when the user is successfully created
-                        // Todo
-                        // instead of this line, redirect the user to the login page
-                        res.status(200).send({user: user.toJSON()});
+                        res.redirect('/login');
                     })
                     .catch(err => {
                         res.status(500).send({message: `Error while creating user: ${err}`});
@@ -72,7 +70,7 @@ exports.tryLogin = (req, res) => {
 
     // if the session has a boolean named (auth), then the user is authenticated
     if(req.session.auth){
-        res.send('You are already Login');
+        res.redirect('/');
     }else{ // only if the user is not authenticated, try to authenticate him
         const email = req.body.email;
         const password = req.body.password;
@@ -89,10 +87,9 @@ exports.tryLogin = (req, res) => {
                 .then(result => {
                     if(result){
                         // create a session for the user
-                        req.session.    auth = true;
+                        req.session.auth = true;
                         req.session.user = user;
-                        res.status(200).send({message: 'Login successful'});
-                        // res.redirect('/');
+                        res.redirect('/');
                     }else{
                         res.status(401).send({message: 'Wrong password'});
                     }

@@ -21,15 +21,11 @@ router.get('/', services.homeRoute);
 
 // Login form route
 // this route is going to show the login form to the user
-router.get('/login', (req, res) => {
-    res.send('Here is where the login form will appear.');
-});
+router.get('/login', services.login);
 
 // Register form route
 // this route is going to show the register form to the user.
-router.get('/register', (req, res) => {
-    res.send('Here is where the register form will appear.')
-});
+router.get('/register', services.register);
 
 // ----------------------------------------------------------
 

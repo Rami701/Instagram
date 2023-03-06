@@ -1,11 +1,15 @@
-<div>
-    <img src="img/20160512134335!Instagram_logo.svg" alt="">
-    <form action="/users" method="POST">
-        <input type="text" placeholder="Phone number or Email" name="email">
-        <input type="text" placeholder="Full name" name="fullName">
+<%- include('includes/_header') %>
+<div class="reg-div">
+    <img class="reg-img" src="img/20160512134335!Instagram_logo.svg" alt="">
+    <form class="reg-form" action="/register" method="POST">
+        <input type="text" placeholder="Email" name="email">
+        <input type="text" placeholder="First Name" name="firstName">
+        <input type="text" placeholder="Last Name" name="lastName">
         <input type="text" placeholder="Username" name="username">
         <input type="password" placeholder="Password" name="password">
         <button type="submit">Sign up</button>
     </form>
-    <p>Have an account? <span>Log in</span></p>
+    <p class="reg-p">Have an account? <span id="logIn">Log in</span></p>
 </div>
+<script src="js/register.js"></script>
+<%- include('includes/_footer') %>

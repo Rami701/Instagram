@@ -1,0 +1,12 @@
+<%- include('includes/_header') %>
+<div class="login-container">
+    <img class="login-img" src="img/20160512134335!Instagram_logo.svg" alt="">
+    <form class="login-form" action="/login" method="POST">
+        <input type="text" name="email" placeholder="Email" >
+        <input type="password" name="password" placeholder="Password" >
+        <button type="submit">Log in</button>
+    </form>
+    <p class="login-p">Don't have an account? <span id="signUp">Sign up</span></p>
+</div>
+<script src="js/login.js"></script>
+<%- include('includes/_footer') %>
